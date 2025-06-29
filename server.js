@@ -23,6 +23,8 @@ app.get('/', (req, res) => {
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
+const eventRoutes = require('./routes/eventRoutes');
+app.use('/api/events', eventRoutes);
 
 
 // DB Connect & Start Server
