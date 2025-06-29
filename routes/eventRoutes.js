@@ -49,4 +49,35 @@ router.patch('/join/:id', async (req, res) => {
   }
 });
 
+
+// GET all events by a specific user
+router.get('/my-events/:name', async (req, res) => {
+  try {
+    const myEvents = await Event.find({ name: req.params.name });
+    res.json(myEvents);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch your events' });
+  }
+});
+
+// UPDATE an event
+router.put('/update/:id', async (req, res) => {
+  try {
+    await Event.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ message: 'Event updated successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Update failed' });
+  }
+});
+
+// DELETE an event
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    await Event.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Event deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Delete failed' });
+  }
+});
+
 module.exports = router;
