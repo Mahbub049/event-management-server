@@ -7,11 +7,22 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-const corsOptions = {
-    origin: 'https://event-management-server-0vmp.onrender.com/',
-    credentials: true
-};
-app.use(cors(corsOptions));
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://event-management-eta-one.vercel.app'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+// app.use(cors(corsOptions));
 
 app.use(express.json());
 
