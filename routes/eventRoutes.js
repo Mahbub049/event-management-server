@@ -37,17 +37,31 @@ router.get('/all', async (req, res) => {
 
 // 🔹 Join an event
 router.patch('/join/:id', async (req, res) => {
+  const user = req.body.user;
+
+  if (!user) {
+    return res.status(400).json({ message: 'User is required to join an event' });
+  }
+
   try {
     const event = await Event.findById(req.params.id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
+    if (event.attendees.includes(user)) {
+      return res.status(400).json({ message: 'User already joined' });
+    }
+
+    event.attendees.push(user);
     event.attendeeCount += 1;
     await event.save();
+
     res.json({ message: 'You joined the event!', attendeeCount: event.attendeeCount });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: 'Join failed' });
   }
 });
+
 
 
 // GET all events by a specific user

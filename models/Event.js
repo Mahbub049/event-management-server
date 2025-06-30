@@ -7,7 +7,8 @@ const eventSchema = new mongoose.Schema({
   time: { type: String, required: true },
   location: { type: String, required: true },
   description: { type: String },
-  attendeeCount: { type: Number, default: 0 }
+  attendeeCount: { type: Number, default: 0 },
+  attendees: { type: [String], default: [] }  // 🆕 Store usernames or user IDs
 });
 
 module.exports = mongoose.model('Event', eventSchema);
